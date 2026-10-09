@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "repository": "Natsummerance/tool-ReadMD",
+  "release": "packs-2026-10-10",
+  "core": {
+    "labelKey": "capability.core.name",
+    "descriptionKey": "capability.core.purpose",
+    "requiresOffice": false,
+    "requiresPython": false,
+    "requiresNode": false
+  },
+  "packs": [
+    {
+      "id": "pdfium",
+      "version": "7881",
+      "platform": "windows-x64",
+      "labelKey": "capability.pdfium.name",
+      "descriptionKey": "capability.pdfium.purpose",
+      "features": [
+        "pdf_editor"
+      ],
+      "downloadBytes": 18131075,
+      "installedBytes": 13593904,
+      "sha256": "6b97047245f80f8869fe3b0e18fe747dae97d6cd91ea718e3a1a04a19f06b865",
+      "url": "https://github.com/Natsummerance/tool-ReadMD/releases/download/packs-2026-10-10/readmd-pdfium-7881-windows-x64.readmd-pack",
+      "license": "BSD-3-Clause; third-party notices included"
+    },
+    {
+      "id": "typst",
+      "version": "0.15.1",
+      "platform": "windows-x64",
+      "labelKey": "capability.typst.name",
+      "descriptionKey": "capability.typst.purpose",
+      "features": [
+        "academic_pdf"
+      ],
+      "downloadBytes": 31364775,
+      "installedBytes": 52518469,
+      "sha256": "dc808794d6f8ef734156201db0bd4a18ce1b79fc03d03cd370ec4d8df21b37e3",
+      "url": "https://github.com/Natsummerance/tool-ReadMD/releases/download/packs-2026-10-10/readmd-typst-0.15.1-windows-x64.readmd-pack",
+      "license": "Apache-2.0; dependency and font notices included"
+    }
+  ],
+  "pending": [
+    {
+      "id": "ocr",
+      "features": [
+        "ocr"
+      ],
+      "reason": "portable-runtime-not-packaged"
+    },
+    {
+      "id": "speech",
+      "features": [
+        "transcribe"
+      ],
+      "reason": "portable-runtime-and-models-not-packaged"
+    },
+    {
+      "id": "latex",
+      "features": [
+        "xelatex",
+        "pdflatex"
+      ],
+      "reason": "portable-tex-distribution-not-packaged"
+    }
+  ]
+}
