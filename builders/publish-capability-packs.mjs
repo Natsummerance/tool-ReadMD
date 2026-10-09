@@ -28,7 +28,7 @@ async function main() {
     artifacts.push({ entry, name, bytes });
     files['locks/' + lockName] = lockBytes;
   }
-  for (const name of ['build-pdf-pack.mjs', 'build-typst-pack.mjs', 'build-ocr-runtime.mjs', 'build-ocr-pack.mjs', 'ocr-runtime-inputs.lock.json', 'prepare-capability-catalog.mjs', 'publish-capability-packs.mjs', 'lib/capability-publication.mjs']) files['builders/' + name] = fs.readFileSync(path.join(root, 'tools', name));
+  for (const name of ['build-pdf-pack.mjs', 'build-typst-pack.mjs', 'build-ocr-runtime.mjs', 'build-ocr-pack.mjs', 'ocr-runtime-inputs.lock.json', 'build-publication-fonts.mjs', 'publication-font-inputs.lock.json', 'publication-static-fonts.lock.json', 'fonts/prepare_static.py', 'prepare-capability-catalog.mjs', 'publish-capability-packs.mjs', 'lib/capability-publication.mjs']) files['builders/' + name] = fs.readFileSync(path.join(root, 'tools', name));
   const available = catalog.packs.map(p => `| ${p.id} ${p.version} | ${p.platform} | ${(p.downloadBytes / 1048576).toFixed(1)} MiB | ${(p.installedBytes / 1048576).toFixed(1)} MiB |`).join('\n');
   const readme = `# ReadMD capability packs
 
@@ -42,7 +42,9 @@ PDFium provides PDF page-object editing/rasterization. Typst provides academic P
 
 Use the feature-entry installer, choose components in Windows setup, or import a .readmd-pack offline. Application-pinned locks, each file digest and an actual engine operation are checked before installation. Packs contain no installer scripts. A remotely edited catalog cannot authorize new code for an existing application.
 
-Only listed platform packs are prepared. Native evidence currently covers Windows x64. Transcription, traditional TeX, additional fonts, GUI host delivery and other platforms remain open. Original upstream licenses and notices are retained inside every pack. This release is independent of the main ReadMD application version.
+The universal fonts pack contains private regular/bold sans/serif Chinese publication fonts, derived at fixed weights from pinned Noto sources. Copyright, OFL licenses and modification notices are included; no OS font registration. Small STIX Two Math ships in the main ReadMD core. The font preparation tool is development-only; neither Python nor fontTools is required by ReadMD.
+
+Only listed engine platform packs are prepared. Native evidence currently covers Windows x64. Transcription, traditional TeX, further script coverage, GUI host delivery and other engine platforms remain open. Original upstream licenses and notices are retained inside every pack. This release is independent of the main ReadMD application version.
 
 ## Rebuilding and publishing
 
