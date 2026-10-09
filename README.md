@@ -1,21 +1,27 @@
 # ReadMD capability packs
 
-Optional, offline engines for ReadMD. Reading, Markdown editing and Rust-native Word/EPUB conversion remain in the main application. Word conversion does not require Office, WPS or LibreOffice.
+Optional offline engines for ReadMD. Markdown, Rust-native DOCX/EPUB conversion and basic PDF output remain in the core. Generating Word files does not require Office, WPS or LibreOffice.
 
-## Available Windows x64 packs
+| Engine | Platform | Download | Installed |
+| --- | --- | ---: | ---: |
+| pdfium 7881 | windows-x64 | 17.3 MiB | 13.0 MiB |
+| typst 0.15.1 | windows-x64 | 29.9 MiB | 50.1 MiB |
+| ocr 5.5.3-r1 | windows-x64 | 9.4 MiB | 12.7 MiB |
 
-- **pdfium 7881**: 17.3 MiB download, 13.0 MiB installed. SHA-256 and individual file locks are included in catalog.json and locks/.
-- **typst 0.15.1**: 29.9 MiB download, 50.1 MiB installed. SHA-256 and individual file locks are included in catalog.json and locks/.
-- **ocr 5.5.3-r1**: 9.4 MiB download, 12.7 MiB installed. SHA-256 and individual file locks are included in catalog.json and locks/.
+PDFium provides PDF page-object editing/rasterization. Typst provides academic PDF typesetting. OCR includes a static Tesseract/Leptonica engine and English, simplified Chinese and traditional Chinese models; Rust decodes images without Office, Python, Node or OS OCR language packs. Handwriting and universal recognition accuracy are not certified.
 
-PDFium provides PDF page editing/rasterization; Typst provides academic PDF typesetting; OCR includes a static Tesseract/Leptonica engine and English, simplified Chinese and traditional Chinese recognition models. Rust decodes images; no Office, Python, Node, VC redistributable or OS OCR language pack is required for this OCR path. OCR accuracy depends on the scan; handwriting is not certified.
+Use the feature-entry installer, choose components in Windows setup, or import a .readmd-pack offline. Application-pinned locks, each file digest and an actual engine operation are checked before installation. Packs contain no installer scripts. A remotely edited catalog cannot authorize new code for an existing application.
 
-Install directly at the corresponding feature entry, choose components in the Windows installer (OCR is recommended and can be deselected), or import a .readmd-pack file offline. ReadMD verifies the application-pinned manifest, every file digest, and a real engine operation before atomic installation. Packs contain no installer scripts. The existing application lock is the trust root; a remotely edited catalog cannot authorize arbitrary code.
+Only listed platform packs are prepared. Native evidence currently covers Windows x64. Transcription, traditional TeX, additional fonts, GUI host delivery and other platforms remain open. Original upstream licenses and notices are retained inside every pack. This release is independent of the main ReadMD application version.
 
-Only Windows x64 packs have been prepared and native tested. Transcription, TeX and other-platform delivery remain pending. Upstream licenses and dependency/font notices are included inside each pack. This package release does not publish a new version of the main ReadMD application.
+## Rebuilding and publishing
 
-## Reproducibility
+Builders are archived for inspection; run them from the matching rust-ReadMD checkout, which supplies assets/, tools/, the worker source and Cargo.lock. Copy builders/ into that checkout's tools/ if necessary. Prepare exact locked local inputs separately, then build offline. OCR source/model/tool locks are in builders/ocr-runtime-inputs.lock.json. Compiler output is locked per reviewed build; bit-identical output across arbitrary compilers is not promised.
 
-Builders are archived here for inspection; they run from the matching rust-ReadMD checkout, which supplies assets/, tools/ and the Rust worker source. Copy builders/ to tools/ in that checkout, prepare the exact locked local inputs, then use each script's usage line. OCR source/model/tool hashes are in builders/ocr-runtime-inputs.lock.json. The OCR compiler and every pack builder run offline; explicit preparation of locked sources is separate. The PDF worker must be built with the checkout's Cargo.lock.
+Put catalog-named packages in one staging directory. From the main checkout run:
 
-Builders do not fetch floating versions or execute package installer scripts. Runtime downloads use this repository rather than an upstream project release. Every new pack version needs an updated application lock and native evidence. Compiler output is locked per reviewed build; the recipes do not claim bit-for-bit reproducibility across arbitrary compiler versions.
+```sh
+node tools/publish-capability-packs.mjs --packs STAGING_DIRECTORY
+```
+
+The default is an offline preflight: no network or credential read. After review, append --publish to update only this owned repository using the configured GitHub credential. All local payloads are checked first. Existing published assets with a different digest are refused rather than overwritten. New versions need a new release tag, updated application locks, licenses and native evidence. No documents, videos, social assets or user profile files are included.
