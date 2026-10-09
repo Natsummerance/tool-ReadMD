@@ -11,7 +11,7 @@ export function validateCatalog(catalog) {
   if (catalog?.schema !== 1 || catalog.repository !== repository || !safe(catalog.release) || !Array.isArray(catalog.packs) || !catalog.packs.length) throw Error('Invalid owned capability catalog');
   const identities = new Set();
   for (const p of catalog.packs) {
-    if (!['pdfium', 'typst', 'ocr'].includes(p.id) || !safe(p.version) || !safe(p.platform) || !digest(p.sha256) || !Number.isSafeInteger(p.downloadBytes) || p.downloadBytes <= 0 || p.downloadBytes > 128 * 1048576 || !Number.isSafeInteger(p.installedBytes) || p.installedBytes <= 0) throw Error('Invalid capability identity or size');
+    if (!['pdfium', 'typst', 'ocr', 'fonts'].includes(p.id) || !safe(p.version) || !safe(p.platform) || !digest(p.sha256) || !Number.isSafeInteger(p.downloadBytes) || p.downloadBytes <= 0 || p.downloadBytes > 128 * 1048576 || !Number.isSafeInteger(p.installedBytes) || p.installedBytes <= 0) throw Error('Invalid capability identity or size');
     const identity = p.id + ':' + p.platform;
     if (identities.has(identity)) throw Error('Duplicate capability/platform');
     identities.add(identity);
